@@ -43,5 +43,6 @@ def test_main_with_input(capsys):
     main.input = mock_input
     main.main()
     out, err = capsys.readouterr()
-    assert out == ("String string is not a link\n"
-                   "{'https://dzen.ru': {'GET': 200}}\n")
+    expected = ("String string is not a link\n"
+                "{'https://dzen.ru': {'GET': 200}}\n")
+    assert out == expected
