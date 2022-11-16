@@ -1,9 +1,10 @@
-from validator_collection import checkers
 from concurrent.futures import ThreadPoolExecutor
+
 import requests
+from validator_collection import checkers
 
 
-def get_response(url):
+def get_response(url: str) -> dict:
     get = requests.get(url)
     post = requests.post(url)
     put = requests.put(url)
@@ -19,15 +20,16 @@ def get_response(url):
     return {url: result}
 
 
-def main():
-    urls = list(iter(input, ''))
+def main(urls: list = None):
+    if not urls:
+        urls = list(iter(input, ''))
     true_urls = []
     result = {}
     for item in urls:
         if checkers.is_url(item):
             true_urls.append(item)
         else:
-            print(f'String {item} is not url')
+            print(f'String {item} is not a link')
     with ThreadPoolExecutor() as executor:
         future = executor.map(get_response, true_urls)
         for url in future:
