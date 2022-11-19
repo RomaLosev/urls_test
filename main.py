@@ -20,21 +20,31 @@ def get_response(url: str) -> dict:
     return {url: result}
 
 
-def main(urls: list = None):
-    if not urls:
-        urls = list(iter(input, ''))
-    true_urls = []
+def execute(urls: list) -> dict:
     result = {}
+    with ThreadPoolExecutor() as executor:
+        future = executor.map(get_response, urls)
+        for url in future:
+            for key, value in url.items():
+                result[key] = value
+    return result
+
+
+def url_checker(urls: list) -> list:
+    true_urls = []
     for item in urls:
         if checkers.is_url(item):
             true_urls.append(item)
         else:
             print(f'String {item} is not a link')
-    with ThreadPoolExecutor() as executor:
-        future = executor.map(get_response, true_urls)
-        for url in future:
-            for key, value in url.items():
-                result[key] = value
+    return true_urls
+
+
+def main(urls: list = None):
+    if not urls:
+        urls = list(iter(input, ''))
+    true_urls = url_checker(urls)
+    result = execute(true_urls)
     print(result)
 
 
