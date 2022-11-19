@@ -25,7 +25,9 @@ def test_main_with_list(capsys):
                 "'https://dzen.ru': {'GET': 200}, "
                 "'https://www.avito.ru/': "
                 "{'GET': 403, 'POST': 403, 'PUT': 403, 'DELETE': 403, 'HEAD': 403, 'PATCH': 403, 'OPTIONS': 403}, "
-                "'https://ya.ru/': {'GET': 200, 'HEAD': 302}}\n")
+                "'https://ya.ru/': "
+                "{'GET': 200, 'POST': 200, 'PUT': 200, 'DELETE': 200, 'HEAD': 302, 'PATCH': 200, 'OPTIONS': 200}}\n")
+    print(out)
     assert out == expected
 
 

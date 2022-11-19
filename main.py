@@ -4,19 +4,23 @@ import requests
 from validator_collection import checkers
 
 
+methods = {
+    'GET': requests.get,
+    'POST': requests.post,
+    'PUT': requests.put,
+    'DELETE': requests.delete,
+    'HEAD': requests.head,
+    'PATCH': requests.patch,
+    'OPTIONS': requests.options,
+}
+
+
 def get_response(url: str) -> dict:
-    get = requests.get(url)
-    post = requests.post(url)
-    put = requests.put(url)
-    delete = requests.delete(url)
-    head = requests.head(url)
-    patch = requests.patch(url)
-    options = requests.options(url)
-    request_methods = [get, post, put, delete, head, patch, options]
     result = {}
-    for method in request_methods:
-        if not method.status_code == 405:
-            result[method.request.method] = method.status_code
+    for method, req in methods.items():
+        code = req(url).status_code
+        if not code == 405:
+            result[method] = code
     return {url: result}
 
 
