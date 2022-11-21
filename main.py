@@ -28,9 +28,9 @@ def execute(urls: list) -> dict:
     result = {}
     with ThreadPoolExecutor() as executor:
         future = executor.map(get_response, urls)
-        for url in future:
-            for key, value in url.items():
-                result[key] = value
+    for url in future:
+        for key, value in url.items():
+            result[key] = value
     return result
 
 
